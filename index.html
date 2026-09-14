@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>2027 수시 학생부 기반 면접 대비 학생 활동지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2f5fb;
+    --card:#ffffff;
+    --primary:#2f5fa8;
+    --primary-dark:#20406f;
+    --primary-light:#e8f0fd;
+    --accent:#e8a33d;
+    --text:#222833;
+    --muted:#6b7480;
+    --border:#dfe4ee;
+    --danger:#d9534f;
+    --danger-dark:#b9433f;
+    --radius:14px;
+    --titlebar-bg:#122a4d;
+    --titlebar-fg:#ffffff;
+    --link-external:#6c4fa1;
+    --link-external-dark:#523a7d;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', Roboto, sans-serif;
+    line-height:1.5;
+    padding-bottom:60px;
+  }
+  header.top{
+    background:var(--titlebar-bg);
+    color:var(--titlebar-fg);
+    padding:16px 16px 20px;
+  }
+  .topbar-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  header.top h1{
+    margin:0;
+    font-family:'Gowun Dodum', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', Roboto, sans-serif;
+    font-size:1.9rem;
+    font-weight:800;
+    letter-spacing:-0.3px;
+    line-height:1.3;
+  }
+  header.top h1 .subtitle-inline{
+    font-size:0.42em;
+    font-weight:500;
+    opacity:0.82;
+    letter-spacing:0;
+    margin-left:4px;
+  }
+  .buildinfo{
+    text-align:right;
+    flex:0 1 auto;
+    font-size:0.74rem;
+    font-weight:600;
+    opacity:0.85;
+    white-space:nowrap;
+  }
+  .info-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    background:rgba(255,255,255,0.12);
+    padding:10px;
+    border-radius:10px;
+    align-items:center;
+  }
+  .info-grid .field{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex:1 1 130px;
+    min-width:90px;
+  }
+  .info-grid .field.narrow{
+    flex:0 1 78px;
+    min-width:60px;
+  }
+  .info-grid .field.school{
+    flex:0 1.2 190px;
+    min-width:110px;
+  }
+  .header-actions{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+    flex:1.5 1 220px;
+    justify-content:flex-end;
+  }
+  .header-actions .btn{
+    background:rgba(255,255,255,0.14);
+    color:#fff;
+    border:1px solid rgba(255,255,255,0.35);
+    padding:7px 10px;
+    font-size:0.74rem;
+    white-space:nowrap;
+  }
+  .header-actions .btn:hover{
+    background:rgba(255,255,255,0.26);
+  }
+  .header-actions .btn.btn-danger{
+    background:rgba(255,255,255,0.1);
+    color:#ffd9d6;
+    border-color:rgba(255,140,140,0.55);
+  }
+  .header-actions .save-status{
+    color:rgba(255,255,255,0.78);
+    font-size:0.68rem;
+    white-space:nowrap;
+    margin-right:2px;
+  }
+  .info-grid label{
+    font-size:0.75rem;
+    white-space:nowrap;
+    opacity:0.9;
+  }
+  .info-grid input{
+    width:100%;
+    border:none;
+    border-radius:6px;
+    padding:7px 8px;
+    font-size:0.85rem;
+    background:#fff;
+    color:var(--text);
+  }
+  nav.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:10px 10px 0;
+    background:var(--card);
+    position:sticky;
+    top:0;
+    z-index:20;
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+    -webkit-overflow-scrolling:touch;
+  }
+  nav.tabs::-webkit-scrollbar{height:4px;}
+  nav.tabs button{
+    flex:0 0 auto;
+    border:none;
+    background:transparent;
+    padding:10px 14px;
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--muted);
+    border-bottom:3px solid transparent;
+    cursor:pointer;
+    white-space:nowrap;
+    border-radius:8px 8px 0 0;
+  }
+  nav.tabs button.active{
+    color:var(--primary);
+    border-bottom:3px solid var(--primary);
+    background:var(--primary-light);
+  }
+  nav.tabs a.ext-link{
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    text-decoration:none;
+    padding:10px 14px;
+    font-size:0.85rem;
+    font-weight:700;
+    color:var(--link-external);
+    background:transparent;
+    border-bottom:3px solid transparent;
+    border-radius:8px 8px 0 0;
+    white-space:nowrap;
+    margin-left:2px;
+  }
+  nav.tabs a.ext-link:hover{
+    background:rgba(108,79,161,0.08);
+    border-bottom-color:var(--link-external);
+  }
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:14px 12px 40px;
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:6px 0 14px;
+  }
+  .panel-head h2{
+    font-size:1.08rem;
+    margin:0;
+    color:var(--primary-dark);
+  }
+  .panel-head .desc{
+    font-size:0.78rem;
+    color:var(--muted);
+    margin-top:2px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:none;
+    border-radius:9px;
+    padding:9px 13px;
+    font-size:0.82rem;
+    font-weight:600;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--primary); color:#fff;}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-outline{background:#fff; color:var(--primary); border:1.5px solid var(--primary);}
+  .btn-ghost{background:var(--primary-light); color:var(--primary-dark);}
+  .btn-danger{background:#fff; color:var(--danger); border:1.5px solid var(--danger); padding:6px 10px; font-size:0.76rem;}
+  .btn-print{background:var(--accent); color:#fff;}
+  .btn-sm{padding:6px 10px; font-size:0.76rem;}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px;
+    margin-bottom:12px;
+    position:relative;
+    box-shadow:0 1px 3px rgba(20,30,60,0.04);
+  }
+  .card .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:8px;
+    margin-bottom:8px;
+  }
+  .card .badge{
+    display:inline-block;
+    background:var(--primary-light);
+    color:var(--primary-dark);
+    font-size:0.72rem;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:20px;
+  }
+  .dday{
+    font-size:0.72rem;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:20px;
+    background:#fff3e0;
+    color:var(--accent);
+    margin-left:6px;
+  }
+  .field-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:8px;
+  }
+  .field-item{
+    flex:1 1 160px;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .field-item.full{flex-basis:100%;}
+  .field-item label{
+    font-size:0.72rem;
+    color:var(--muted);
+    font-weight:600;
+  }
+  input[type=text], input[type=date], input[type=time], textarea, select{
+    width:100%;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 9px;
+    font-size:0.86rem;
+    font-family:inherit;
+    background:#fbfcfe;
+    color:var(--text);
+    resize:vertical;
+  }
+  textarea{min-height:52px;}
+  textarea.tall{min-height:80px;}
+  input:focus, textarea:focus, select:focus{
+    outline:none;
+    border-color:var(--primary);
+    background:#fff;
+  }
+  .q-item{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px;
+    margin-bottom:8px;
+    background:#fbfcfe;
+  }
+  .q-item .q-top{
+    display:flex;
+    gap:6px;
+    align-items:flex-start;
+    margin-bottom:6px;
+  }
+  .q-item .q-num{
+    flex:0 0 auto;
+    background:var(--primary);
+    color:#fff;
+    font-size:0.72rem;
+    font-weight:700;
+    width:20px;height:20px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:6px;
+  }
+  .q-meta-row{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .q-meta-row select, .q-meta-row input.subject-detail{
+    flex:1 1 130px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    padding:6px 8px;
+    font-size:0.78rem;
+    background:#fff;
+    color:var(--text);
+    font-family:inherit;
+  }
+  .q-meta-row select{
+    flex:0 1 110px;
+    color:var(--muted);
+  }
+  .group-block{
+    border:1px dashed var(--border);
+    border-radius:var(--radius);
+    padding:12px;
+    margin-bottom:16px;
+    background:#fafbfd;
+  }
+  .group-block h3{
+    margin:0 0 10px;
+    font-size:0.96rem;
+    color:var(--primary-dark);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .other-subject-name{
+    font-weight:700;
+    font-size:0.9rem;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:6px 8px;
+    flex:1 1 140px;
+    min-width:100px;
+  }
+  .empty-hint{
+    color:var(--muted);
+    font-size:0.8rem;
+    text-align:center;
+    padding:14px 6px;
+  }
+  .example-box{
+    background:#fff8ea;
+    border:1px solid #f2ddab;
+    border-radius:8px;
+    padding:8px;
+    margin-bottom:6px;
+  }
+  .example-box label{
+    display:block;
+    font-size:0.72rem;
+    font-weight:700;
+    color:#a9761c;
+    margin-bottom:4px;
+  }
+  .example-box textarea{
+    background:#fffdf7;
+    border-color:#f2ddab;
+    min-height:44px;
+  }
+  .subject-tabs{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .subject-tabs button{
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--muted);
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:0.8rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .subject-tabs button.active{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+  }
+  .subject-page{display:none;}
+  .subject-page.active{display:block;}
+  #printArea{display:none;}
+  #fileInput{display:none;}
+  @media (max-width:600px){
+    header.top h1{font-size:1.4rem;}
+    .info-grid .field{flex-basis:100%;}
+    .header-actions{flex-basis:100%; justify-content:flex-start;}
+    .panel-head{flex-direction:column; align-items:flex-start;}
+    .topbar-inner{flex-direction:column; align-items:flex-start;}
+    .buildinfo{text-align:left; white-space:normal;}
+  }
+  @media print{
+    .no-print{display:none !important;}
+    main .tab-panel{display:none !important;}
+    header.top{display:none !important;}
+    body{background:#fff;}
+    #printArea{
+      display:block !important;
+      padding:0;
+      color:#111;
+    }
+    #printArea .p-header{
+      border-bottom:2px solid #222;
+      padding-bottom:10px;
+      margin-bottom:14px;
+    }
+    #printArea .p-header h1{font-size:16pt; margin:0 0 4px;}
+    #printArea .p-header .p-meta{font-size:9.5pt; color:#333;}
+    #printArea .p-block{
+      border:1px solid #ccc;
+      border-radius:8px;
+      padding:10px 12px;
+      margin-bottom:10px;
+      page-break-inside:avoid;
+      font-size:10pt;
+    }
+    #printArea .p-block h4{
+      margin:0 0 6px;
+      font-size:11pt;
+      color:#20406f;
+      border-bottom:1px solid #ddd;
+      padding-bottom:4px;
+    }
+    #printArea .p-row{margin-bottom:4px;}
+    #printArea .p-row b{color:#20406f;}
+    #printArea .p-sub-title{
+      font-size:12pt;
+      font-weight:800;
+      margin:16px 0 8px;
+      color:#20406f;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="topbar-inner">
+    <div class="brand">
+      <h1>2027 수시 학생부 기반 면접 대비 학생 활동지 <span class="subtitle-inline">(면접 일정부터 예상 질문, 후기까지 — 나만의 면접 준비 기록장)</span></h1>
+    </div>
+    <div class="buildinfo">제작/관리: 화원고등학교 박한민 (2026.09.14 · v1)</div>
+  </div>
+  <div class="info-grid">
+    <div class="field school"><label>학교</label><input type="text" id="info-school" placeholder="○○고등학교"></div>
+    <div class="field narrow"><label>학년</label><input type="text" id="info-grade" placeholder="3"></div>
+    <div class="field narrow"><label>반</label><input type="text" id="info-class" placeholder="2"></div>
+    <div class="field narrow"><label>번호</label><input type="text" id="info-number" placeholder="15"></div>
+    <div class="field school"><label>이름</label><input type="text" id="info-name" placeholder="홍길동"></div>
+    <div class="header-actions">
+      <span class="save-status" id="saveStatus">자동 저장됨</span>
+      <button class="btn btn-sm" onclick="exportData()">💾 백업 저장</button>
+      <button class="btn btn-sm" onclick="document.getElementById('fileInput').click()">📂 불러오기</button>
+      <button class="btn btn-sm btn-danger" onclick="resetAll()">전체 초기화</button>
+      <input type="file" id="fileInput" accept="application/json" onchange="importData(event)">
+    </div>
+  </div>
+</header>
+
+<nav class="tabs no-print" id="tabNav">
+  <button data-tab="schedule" class="active">📅 면접 일정</button>
+  <button data-tab="common">💬 공통질문</button>
+  <button data-tab="activities">🌱 자율·진로·동아리·행특</button>
+  <button data-tab="subjects">📚 과세특 질문</button>
+  <button data-tab="review">✍️ 면접 후기 작성</button>
+  <button data-tab="feedback">📝 피드백 정리</button>
+  <a class="ext-link" href="https://hanmin-seven.vercel.app" target="_blank" rel="noopener">🏫 2027 화원고 수시 면접 관리 시스템 ↗</a>
+</nav>
+
+<main>
+
+  <!-- 1. 면접 일정 -->
+  <section class="tab-panel active" id="tab-schedule">
+    <div class="panel-head">
+      <div>
+        <h2>나의 면접 대학·일정</h2>
+        <div class="desc">지원한 대학/학과별 면접 일정과 전형 정보를 정리해요.</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-print no-print" onclick="printTab('schedule')">🖨️ 인쇄/PDF</button>
+        <button class="btn btn-primary" onclick="addScheduleItem()">＋ 면접 추가</button>
+      </div>
+    </div>
+    <div id="scheduleList"></div>
+  </section>
+
+  <!-- 2. 공통질문 -->
+  <section class="tab-panel" id="tab-common">
+    <div class="panel-head">
+      <div>
+        <h2>공통 질문 준비</h2>
+        <div class="desc">어느 대학에서나 자주 나오는 질문에 미리 답변을 준비해요.</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-print no-print" onclick="printTab('common')">🖨️ 인쇄/PDF</button>
+        <button class="btn btn-primary" onclick="addCommonItem()">＋ 질문 추가</button>
+      </div>
+    </div>
+    <div id="commonList"></div>
+  </section>
+
+  <!-- 3. 자율/진로/동아리/행특 -->
+  <section class="tab-panel" id="tab-activities">
+    <div class="panel-head">
+      <div>
+        <h2>자율·진로·동아리·행특 질문 준비</h2>
+        <div class="desc">창의적 체험활동과 행동특성 및 종합의견 관련 예상 질문을 영역별로 준비해요.</div>
+      </div>
+      <button class="btn btn-print no-print" onclick="printTab('activities')">🖨️ 인쇄/PDF</button>
+    </div>
+    <div id="activitiesGroups"></div>
+  </section>
+
+  <!-- 4. 과세특 질문 -->
+  <section class="tab-panel" id="tab-subjects">
+    <div class="panel-head">
+      <div>
+        <h2>교과세부능력 및 특기사항(과세특) 질문 준비</h2>
+        <div class="desc">주요교과(국어과·영어과·수학과·사회과·과학과)와 기타교과의 세특 내용을 근거로 예상 질문을 준비해요.</div>
+      </div>
+      <button class="btn btn-print no-print" onclick="printTab('subjects')">🖨️ 인쇄/PDF</button>
+    </div>
+    <div class="subject-tabs no-print" id="subjectTypeTabs">
+      <button data-stype="main" class="active">주요교과 (국어과·영어과·수학과·사회과·과학과)</button>
+      <button data-stype="other">기타교과</button>
+    </div>
+
+    <div class="subject-page active" id="subjectPage-main">
+      <div class="subject-tabs no-print" id="mainSubjectTabs"></div>
+      <div id="mainSubjectPanels"></div>
+    </div>
+
+    <div class="subject-page" id="subjectPage-other">
+      <div class="panel-head" style="margin-top:0;">
+        <div class="desc">교과명을 직접 입력해서 추가할 수 있어요. (예: 정보, 제2외국어, 음악 등)</div>
+        <button class="btn btn-ghost" onclick="addOtherSubject()">＋ 교과 추가</button>
+      </div>
+      <div id="otherSubjectList"></div>
+    </div>
+  </section>
+
+  <!-- 5. 면접 후기 작성 -->
+  <section class="tab-panel" id="tab-review">
+    <div class="panel-head">
+      <div>
+        <h2>면접 후기 작성</h2>
+        <div class="desc">실제 면접에서 받은 질문과 느낀 점을 남겨두면 다음 면접에 큰 도움이 돼요.</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-print no-print" onclick="printTab('review')">🖨️ 인쇄/PDF</button>
+        <button class="btn btn-primary" onclick="addReviewItem()">＋ 후기 추가</button>
+      </div>
+    </div>
+    <div id="reviewList"></div>
+  </section>
+
+  <!-- 6. 피드백 정리 -->
+  <section class="tab-panel" id="tab-feedback">
+    <div class="panel-head">
+      <div>
+        <h2>모의 면접 피드백 정리</h2>
+        <div class="desc">모의 면접이나 스터디 후 받은 피드백과 자기평가를 회차별로 기록해요.</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-print no-print" onclick="printTab('feedback')">🖨️ 인쇄/PDF</button>
+        <button class="btn btn-primary" onclick="addFeedbackItem()">＋ 회차 추가</button>
+      </div>
+    </div>
+    <div id="feedbackList"></div>
+  </section>
+
+</main>
+
+
+<div id="printArea"></div>
+
+<script>
+/* ===================== 설정값 ===================== */
+var MAIN_SUBJECTS = ['국어과','영어과','수학과','사회과','과학과'];
+var OLD_MAIN_SUBJECTS = ['국어','영어','수학','사회','과학']; // 이전 버전 데이터 마이그레이션용
+var ACTIVITY_GROUPS = ['자율활동','진로활동','동아리활동','행동특성 및 종합의견'];
+var DEFAULT_COMMON_QUESTIONS = [
+  { q:'우리 학과(전공)에 지원한 동기는 무엇인가요?', example:'관심이 생긴 계기(수업·활동)와 그 과정에서 키운 역량을 학과 특성과 연결해 설명하기' },
+  { q:'고등학교 생활 중 가장 기억에 남는 활동과 그 이유는 무엇인가요?', example:'구체적 활동명과 상황·자신의 역할·배운 점을 상황-행동-결과 흐름으로 설명하기' },
+  { q:'자신의 장점과 단점을 각각 한 가지씩 말해보세요.', example:'장점은 지원 학과와 연결되는 구체적 사례로, 단점은 극복 노력과 함께 짧게 언급하기' },
+  { q:'가장 의미 있었던 봉사활동과 그 이유를 말해보세요.', example:'봉사 계기와 구체적으로 한 일, 그 과정에서 느끼거나 배운 점을 지원 학과·인성 역량과 연결해 설명하기' },
+  { q:'리더십 또는 협업 능력을 발휘했던 경험이 있다면 말해보세요.', example:'리더 역할이나 팀 활동에서 있었던 갈등·어려움과 자신의 행동, 그로 인한 결과(협력의 성과)를 구체적으로 설명하기' },
+  { q:'입학 후 학업 계획과 졸업 후 진로 계획을 말해보세요.', example:'입학 후 듣고 싶은 과목·참여하고 싶은 활동을 구체적으로 제시하고 졸업 후 목표와 자연스럽게 연결하기' },
+  { q:'가장 인상 깊었던 책과 그 이유에 대해 말해보세요.', example:'책의 핵심 내용을 한두 문장으로 요약하고, 그것이 자신의 진로·가치관에 준 영향을 구체적으로 덧붙이기' },
+  { q:'우리 학교(대학)에 대해 아는 대로 말해보고, 왜 여기여야 하는지 말해보세요.', example:'학과 커리큘럼·특성화 프로그램 등 구체적 정보를 언급하며 지원 이유와 연결하기' },
+  { q:'마지막으로 하고 싶은 말이 있나요?', example:'짧고 진솔하게 감사 인사와 함께 입학 의지를 한 문장으로 표현하기' }
+];
+var GRADE_OPTIONS = ['1학년','2학년','3학년'];
+var STORAGE_KEY = 'interview_prep_2027_v2';
+
+/* ===================== 상태(state) ===================== */
+var state = null;
+
+function uid(){
+  return 'id_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+}
+
+function makeQItem(q, extra){
+  var base = { id: uid(), q: q || '', memo: '' };
+  if(extra) Object.assign(base, extra);
+  return base;
+}
+function newActivityItem(){ return makeQItem('', { grade:'' }); }
+function newSubjectItem(){ return makeQItem('', { subjectDetail:'', grade:'' }); }
+function newScheduleItem(){
+  return { id: uid(), univ:'', dept:'', track:'', date:'', time:'', location:'', type:'', ratio:'', factors:'', notes:'' };
+}
+function newFeedbackItem(){
+  return { id: uid(), univ:'', dept:'', date:'', evaluator:'', questions:'', feedbackContent:'', good:'', bad:'' };
+}
+function newReviewItem(){
+  return { id: uid(), date:'', univ:'', dept:'', received:'', atmosphere:'', good:'', regret:'', tips:'' };
+}
+
+function defaultState(){
+  var activities = {};
+  ACTIVITY_GROUPS.forEach(function(g){ activities[g] = [newActivityItem()]; });
+  var subjectsMain = {};
+  MAIN_SUBJECTS.forEach(function(s){ subjectsMain[s] = [newSubjectItem()]; });
+  return {
+    info: { school:'', grade:'', classNo:'', number:'', name:'' },
+    schedule: [newScheduleItem()],
+    feedback: [newFeedbackItem()],
+    common: DEFAULT_COMMON_QUESTIONS.map(function(o){ return makeQItem(o.q, {example:o.example}); }),
+    activities: activities,
+    subjectsMain: subjectsMain,
+    subjectsOther: [],
+    review: [newReviewItem()]
+  };
+}
+
+function loadState(){
+  var raw = null;
+  try{ raw = localStorage.getItem(STORAGE_KEY); }catch(e){}
+  if(!raw){ return defaultState(); }
+  try{
+    var parsed = JSON.parse(raw);
+    var d = defaultState();
+    // 얕은 병합으로 이전 버전 데이터와도 호환
+    parsed.info = Object.assign({}, d.info, parsed.info||{});
+    parsed.schedule = parsed.schedule || [];
+    parsed.feedback = parsed.feedback || [];
+    parsed.common = (parsed.common && parsed.common.length) ? parsed.common : d.common;
+    parsed.common.forEach(function(it){ if(it.example === undefined) it.example = ''; });
+    parsed.activities = parsed.activities || d.activities;
+    ACTIVITY_GROUPS.forEach(function(g){
+      if(!parsed.activities[g]) parsed.activities[g] = [];
+      parsed.activities[g].forEach(function(it){ if(it.grade === undefined) it.grade = ''; });
+    });
+    parsed.subjectsMain = parsed.subjectsMain || d.subjectsMain;
+    // 이전 버전(국어/영어/수학/사회/과학 → 국어과/영어과/...) 데이터 이관
+    MAIN_SUBJECTS.forEach(function(s, idx){
+      if(!parsed.subjectsMain[s]){
+        var oldKey = OLD_MAIN_SUBJECTS[idx];
+        parsed.subjectsMain[s] = (oldKey && parsed.subjectsMain[oldKey]) ? parsed.subjectsMain[oldKey] : [];
+      }
+      parsed.subjectsMain[s].forEach(function(it){
+        if(it.subjectDetail === undefined) it.subjectDetail = '';
+        if(it.grade === undefined) it.grade = '';
+      });
+    });
+    parsed.subjectsOther = parsed.subjectsOther || [];
+    parsed.subjectsOther.forEach(function(s){
+      (s.items||[]).forEach(function(it){
+        if(it.subjectDetail === undefined) it.subjectDetail = '';
+        if(it.grade === undefined) it.grade = '';
+      });
+    });
+    parsed.review = parsed.review || [];
+    return parsed;
+  }catch(e){
+    return defaultState();
+  }
+}
+
+var saveTimer = null;
+function saveState(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      var el = document.getElementById('saveStatus');
+      if(el){
+        var t = new Date();
+        var hh = String(t.getHours()).padStart(2,'0');
+        var mm = String(t.getMinutes()).padStart(2,'0');
+        el.textContent = '자동 저장됨 (' + hh + ':' + mm + ')';
+      }
+    }catch(e){
+      var el2 = document.getElementById('saveStatus');
+      if(el2) el2.textContent = '저장 실패 - 저장 공간을 확인해주세요';
+    }
+  }, 300);
+}
+
+function esc(str){
+  if(str === undefined || str === null) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function nl2br(str){ return esc(str).replace(/\n/g,'<br>'); }
+
+/* ===================== 탭 전환 ===================== */
+function showTab(tabKey){
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('tab-' + tabKey).classList.add('active');
+  document.querySelectorAll('#tabNav button').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-tab') === tabKey);
+  });
+}
+document.getElementById('tabNav').addEventListener('click', function(e){
+  var btn = e.target.closest('button[data-tab]');
+  if(!btn) return;
+  showTab(btn.getAttribute('data-tab'));
+});
+document.getElementById('subjectTypeTabs').addEventListener('click', function(e){
+  var btn = e.target.closest('button[data-stype]');
+  if(!btn) return;
+  var type = btn.getAttribute('data-stype');
+  document.querySelectorAll('#subjectTypeTabs button').forEach(function(b){ b.classList.toggle('active', b===btn); });
+  document.getElementById('subjectPage-main').classList.toggle('active', type==='main');
+  document.getElementById('subjectPage-other').classList.toggle('active', type==='other');
+});
+
+/* ===================== 공통 정보(학생 인적사항) ===================== */
+function bindInfo(){
+  var map = {school:'info-school', grade:'info-grade', classNo:'info-class', number:'info-number', name:'info-name'};
+  Object.keys(map).forEach(function(key){
+    var el = document.getElementById(map[key]);
+    el.value = state.info[key] || '';
+    el.addEventListener('input', function(){ state.info[key] = el.value; saveState(); });
+  });
+}
+
+/* ===================== 질문+메모 아이템 공통 렌더 ===================== */
+function renderQItemsHTML(items, ctx){
+  // ctx: {onQ: 'fn(id,val)', onMemo:'fn(id,val)', onDel:'fn(id)'} 형태의 문자열 함수명
+  if(!items.length){
+    return '<div class="empty-hint">아직 등록된 질문이 없어요. 위의 ＋ 버튼으로 추가해보세요.</div>';
+  }
+  return items.map(function(it, idx){
+    return '<div class="q-item">' +
+      '<div class="q-top">' +
+        '<div class="q-num">' + (idx+1) + '</div>' +
+        '<div style="flex:1;">' +
+          '<textarea placeholder="예상 질문을 입력하세요" oninput="' + ctx.onQ + '(\'' + it.id + '\', this.value)">' + esc(it.q) + '</textarea>' +
+        '</div>' +
+        '<button class="btn btn-danger" onclick="' + ctx.onDel + '(\'' + it.id + '\')">삭제</button>' +
+      '</div>' +
+      '<textarea class="tall" placeholder="답변 방향 · 핵심 키워드 메모" oninput="' + ctx.onMemo + '(\'' + it.id + '\', this.value)">' + esc(it.memo) + '</textarea>' +
+    '</div>';
+  }).join('');
+}
+
+/* ===================== 1. 면접 일정 ===================== */
+function addScheduleItem(){
+  state.schedule.push(newScheduleItem());
+  saveState(); renderSchedule();
+}
+function removeScheduleItem(id){
+  if(!confirm('이 면접 일정을 삭제할까요?')) return;
+  state.schedule = state.schedule.filter(function(x){ return x.id!==id; });
+  saveState(); renderSchedule();
+}
+function updateScheduleField(id, field, val){
+  var it = state.schedule.find(function(x){ return x.id===id; });
+  if(it){ it[field] = val; saveState(); }
+}
+function ddayLabel(dateStr){
+  if(!dateStr) return '';
+  var target = new Date(dateStr + 'T00:00:00');
+  if(isNaN(target.getTime())) return '';
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  var diff = Math.round((target - today) / 86400000);
+  if(diff === 0) return 'D-DAY';
+  if(diff > 0) return 'D-' + diff;
+  return 'D+' + Math.abs(diff);
+}
+function renderSchedule(){
+  var list = state.schedule;
+  var html = '';
+  if(!list.length){
+    html = '<div class="empty-hint">등록된 면접 일정이 없어요. 오른쪽 위 ＋ 면접 추가 버튼을 눌러 시작해보세요.</div>';
+  } else {
+    html = list.map(function(it, idx){
+      var dday = ddayLabel(it.date);
+      return '<div class="card">' +
+        '<div class="card-top">' +
+          '<span><span class="badge">면접 ' + (idx+1) + '</span>' + (dday? '<span class="dday">'+dday+'</span>':'') + '</span>' +
+          '<button class="btn btn-danger" onclick="removeScheduleItem(\'' + it.id + '\')">삭제</button>' +
+        '</div>' +
+        '<div class="field-row">' +
+          field('대학', 'univ', it, 'text') + field('학과(전공)', 'dept', it, 'text') +
+        '</div>' +
+        '<div class="field-row">' +
+          field('전형명', 'track', it, 'text') + field('면접 일자', 'date', it, 'date') + field('시간/장소', 'time', it, 'text') +
+        '</div>' +
+        '<div class="field-row">' +
+          field('면접 종류', 'type', it, 'text', '예: 제시문 면접, 서류 기반 면접, MMI 등') +
+          field('서류·면접 반영 비율', 'ratio', it, 'text', '예: 서류 70% + 면접 30%') +
+        '</div>' +
+        '<div class="field-row">' +
+          fieldArea('평가 요소', 'factors', it) +
+        '</div>' +
+        '<div class="field-row">' +
+          fieldArea('준비물 · 참고사항', 'notes', it) +
+        '</div>' +
+      '</div>';
+
+      function field(label, key, obj, type, ph){
+        return '<div class="field-item"><label>' + label + '</label>' +
+          '<input type="' + type + '" value="' + esc(obj[key]) + '" placeholder="' + esc(ph||'') + '" ' +
+          'oninput="updateScheduleField(\'' + obj.id + '\',\'' + key + '\',this.value)"></div>';
+      }
+      function fieldArea(label, key, obj){
+        return '<div class="field-item full"><label>' + label + '</label>' +
+          '<textarea oninput="updateScheduleField(\'' + obj.id + '\',\'' + key + '\',this.value)">' + esc(obj[key]) + '</textarea></div>';
+      }
+    }).join('');
+  }
+  document.getElementById('scheduleList').innerHTML = html;
+}
+
+/* ===================== 2. 피드백 정리 ===================== */
+function addFeedbackItem(){
+  state.feedback.push(newFeedbackItem());
+  saveState(); renderFeedback();
+}
+function removeFeedbackItem(id){
+  if(!confirm('이 피드백 기록을 삭제할까요?')) return;
+  state.feedback = state.feedback.filter(function(x){ return x.id!==id; });
+  saveState(); renderFeedback();
+}
+function updateFeedbackField(id, field, val){
+  var it = state.feedback.find(function(x){ return x.id===id; });
+  if(it){ it[field] = val; saveState(); }
+}
+function renderFeedback(){
+  var list = state.feedback;
+  var html = '';
+  if(!list.length){
+    html = '<div class="empty-hint">모의 면접 피드백 기록이 없어요. ＋ 회차 추가로 시작해보세요.</div>';
+  } else {
+    html = list.map(function(it, idx){
+      return '<div class="card">' +
+        '<div class="card-top"><span class="badge">' + (idx+1) + '회차</span>' +
+          '<button class="btn btn-danger" onclick="removeFeedbackItem(\'' + it.id + '\')">삭제</button></div>' +
+        '<div class="field-row">' +
+          f('지원 대학·학과','univ','text') + f('모의 면접 날짜','date','date') + f('평가자(교사/친구 등)','evaluator','text') +
+        '</div>' +
+        '<div class="field-row">' + fa('받았던 질문','questions') + '</div>' +
+        '<div class="field-row">' + fa('평가자 피드백 정리','feedbackContent') + '</div>' +
+        '<div class="field-row">' +
+          '<div class="field-item"><label>내가 잘했던 점</label><textarea class="tall" oninput="updateFeedbackField(\'' + it.id + '\',\'good\',this.value)">' + esc(it.good) + '</textarea></div>' +
+          '<div class="field-item"><label>내가 부족했던 점</label><textarea class="tall" oninput="updateFeedbackField(\'' + it.id + '\',\'bad\',this.value)">' + esc(it.bad) + '</textarea></div>' +
+        '</div>' +
+      '</div>';
+      function f(label,key,type){
+        return '<div class="field-item"><label>' + label + '</label><input type="' + type + '" value="' + esc(it[key]) + '" oninput="updateFeedbackField(\'' + it.id + '\',\'' + key + '\',this.value)"></div>';
+      }
+      function fa(label,key){
+        return '<div class="field-item full"><label>' + label + '</label><textarea oninput="updateFeedbackField(\'' + it.id + '\',\'' + key + '\',this.value)">' + esc(it[key]) + '</textarea></div>';
+      }
+    }).join('');
+  }
+  document.getElementById('feedbackList').innerHTML = html;
+}
+
+/* ===================== 3. 공통질문 ===================== */
+function addCommonItem(){
+  state.common.push(makeQItem(''));
+  saveState(); renderCommon();
+}
+function removeCommonItem(id){
+  state.common = state.common.filter(function(x){ return x.id!==id; });
+  saveState(); renderCommon();
+}
+function updateCommonQ(id,val){ var it=state.common.find(function(x){return x.id===id;}); if(it){it.q=val; saveState();} }
+function updateCommonMemo(id,val){ var it=state.common.find(function(x){return x.id===id;}); if(it){it.memo=val; saveState();} }
+function updateCommonExample(id,val){ var it=state.common.find(function(x){return x.id===id;}); if(it){it.example=val; saveState();} }
+function renderCommon(){
+  var items = state.common;
+  var html = !items.length
+    ? '<div class="empty-hint">아직 등록된 질문이 없어요. 위의 ＋ 버튼으로 추가해보세요.</div>'
+    : items.map(function(it, idx){
+        return '<div class="q-item"><div class="q-top">' +
+          '<div class="q-num">' + (idx+1) + '</div>' +
+          '<div style="flex:1;"><textarea placeholder="예상 질문을 입력하세요" oninput="updateCommonQ(\'' + it.id + '\', this.value)">' + esc(it.q) + '</textarea></div>' +
+          '<button class="btn btn-danger" onclick="removeCommonItem(\'' + it.id + '\')">삭제</button>' +
+        '</div>' +
+        '<div class="example-box"><label>💡 예시 답변 방향</label>' +
+          '<textarea placeholder="이 질문에 대한 간단한 예시 답변 방향을 적어두면 참고하기 좋아요." oninput="updateCommonExample(\'' + it.id + '\', this.value)">' + esc(it.example) + '</textarea></div>' +
+        '<textarea class="tall" placeholder="나만의 답변 준비 메모" oninput="updateCommonMemo(\'' + it.id + '\', this.value)">' + esc(it.memo) + '</textarea></div>';
+      }).join('');
+  document.getElementById('commonList').innerHTML = html;
+}
+
+/* ===================== 4. 자율/진로/동아리/행특 ===================== */
+function addActivityItem(group){
+  state.activities[group].push(newActivityItem());
+  saveState(); renderActivities();
+}
+function updateActivityGrade(group,id,val){
+  var it = state.activities[group].find(function(x){return x.id===id;});
+  if(it){ it.grade=val; saveState(); }
+}
+function removeActivityItem(group,id){
+  state.activities[group] = state.activities[group].filter(function(x){ return x.id!==id; });
+  saveState(); renderActivities();
+}
+function updateActivityQ(group,id,val){
+  var it = state.activities[group].find(function(x){return x.id===id;});
+  if(it){ it.q=val; saveState(); }
+}
+function updateActivityMemo(group,id,val){
+  var it = state.activities[group].find(function(x){return x.id===id;});
+  if(it){ it.memo=val; saveState(); }
+}
+function gradeSelectHTML(value, changeAttr){
+  var opts = [''].concat(GRADE_OPTIONS);
+  return '<select class="grade-select" ' + changeAttr + '>' + opts.map(function(o){
+    return '<option value="' + o + '"' + (value===o ? ' selected' : '') + '>' + (o===''?'학년 선택':o) + '</option>';
+  }).join('') + '</select>';
+}
+function renderActivities(){
+  var html = ACTIVITY_GROUPS.map(function(g){
+    var items = state.activities[g];
+    var body = items.length ? items.map(function(it, idx){
+      return '<div class="q-item"><div class="q-top">' +
+        '<div class="q-num">' + (idx+1) + '</div>' +
+        '<div style="flex:1;">' +
+          '<div class="q-meta-row">' + gradeSelectHTML(it.grade, 'onchange="updateActivityGrade(\'' + g + '\',\'' + it.id + '\',this.value)"') + '</div>' +
+          '<textarea placeholder="예상 질문을 입력하세요" oninput="updateActivityQ(\'' + g + '\',\'' + it.id + '\',this.value)">' + esc(it.q) + '</textarea>' +
+        '</div>' +
+        '<button class="btn btn-danger" onclick="removeActivityItem(\'' + g + '\',\'' + it.id + '\')">삭제</button>' +
+      '</div>' +
+      '<textarea class="tall" placeholder="답변 방향 · 핵심 키워드 메모" oninput="updateActivityMemo(\'' + g + '\',\'' + it.id + '\',this.value)">' + esc(it.memo) + '</textarea></div>';
+    }).join('') : '<div class="empty-hint">아직 등록된 질문이 없어요.</div>';
+    return '<div class="group-block"><h3>' + g +
+      '<button class="btn btn-ghost btn-sm" onclick="addActivityItem(\'' + g + '\')">＋ 질문 추가</button></h3>' + body + '</div>';
+  }).join('');
+  document.getElementById('activitiesGroups').innerHTML = html;
+}
+
+/* ===================== 5. 과세특 질문 (주요교과 / 기타교과) ===================== */
+function addMainSubjectItem(subject){
+  state.subjectsMain[subject].push(newSubjectItem());
+  saveState(); renderSubjects();
+}
+function updateMainSubjectDetail(subject,id,val){
+  var it = state.subjectsMain[subject].find(function(x){return x.id===id;});
+  if(it){ it.subjectDetail=val; saveState(); }
+}
+function updateMainSubjectGrade(subject,id,val){
+  var it = state.subjectsMain[subject].find(function(x){return x.id===id;});
+  if(it){ it.grade=val; saveState(); }
+}
+function removeMainSubjectItem(subject,id){
+  state.subjectsMain[subject] = state.subjectsMain[subject].filter(function(x){ return x.id!==id; });
+  saveState(); renderSubjects();
+}
+function updateMainSubjectQ(subject,id,val){
+  var it = state.subjectsMain[subject].find(function(x){return x.id===id;});
+  if(it){ it.q=val; saveState(); }
+}
+function updateMainSubjectMemo(subject,id,val){
+  var it = state.subjectsMain[subject].find(function(x){return x.id===id;});
+  if(it){ it.memo=val; saveState(); }
+}
+var activeMainSubject = MAIN_SUBJECTS[0];
+function showMainSubject(s){
+  activeMainSubject = s;
+  renderSubjects();
+}
+function addOtherSubject(){
+  state.subjectsOther.push({ id: uid(), name:'', items: [] });
+  saveState(); renderSubjects();
+}
+function removeOtherSubject(id){
+  if(!confirm('이 교과를 삭제할까요? 등록된 질문도 함께 삭제됩니다.')) return;
+  state.subjectsOther = state.subjectsOther.filter(function(x){ return x.id!==id; });
+  saveState(); renderSubjects();
+}
+function updateOtherSubjectName(id,val){
+  var s = state.subjectsOther.find(function(x){return x.id===id;});
+  if(s){ s.name = val; saveState(); }
+}
+function addOtherSubjectItem(subjId){
+  var s = state.subjectsOther.find(function(x){return x.id===subjId;});
+  if(s){ s.items.push(newSubjectItem()); saveState(); renderSubjects(); }
+}
+function updateOtherSubjectItemDetail(subjId,itemId,val){
+  var s = state.subjectsOther.find(function(x){return x.id===subjId;});
+  if(s){ var it = s.items.find(function(x){return x.id===itemId;}); if(it){ it.subjectDetail=val; saveState(); } }
+}
+function updateOtherSubjectItemGrade(subjId,itemId,val){
+  var s = state.subjectsOther.find(function(x){return x.id===subjId;});
+  if(s){ var it = s.items.find(function(x){return x.id===itemId;}); if(it){ it.grade=val; saveState(); } }
+}
+function removeOtherSubjectItem(subjId,itemId){
+  var s = state.subjectsOther.find(function(x){return x.id===subjId;});
+  if(s){ s.items = s.items.filter(function(x){return x.id!==itemId;}); saveState(); renderSubjects(); }
+}
+function updateOtherSubjectItemQ(subjId,itemId,val){
+  var s = state.subjectsOther.find(function(x){return x.id===subjId;});
+  if(s){ var it = s.items.find(function(x){return x.id===itemId;}); if(it){ it.q=val; saveState(); } }
+}
+function updateOtherSubjectItemMemo(subjId,itemId,val){
+  var s = state.subjectsOther.find(function(x){return x.id===subjId;});
+  if(s){ var it = s.items.find(function(x){return x.id===itemId;}); if(it){ it.memo=val; saveState(); } }
+}
+function renderSubjects(){
+  // 주요교과 탭
+  document.getElementById('mainSubjectTabs').innerHTML = MAIN_SUBJECTS.map(function(s){
+    return '<button class="' + (s===activeMainSubject?'active':'') + '" onclick="showMainSubject(\'' + s + '\')">' + s + '</button>';
+  }).join('');
+  var panels = MAIN_SUBJECTS.map(function(s){
+    var items = state.subjectsMain[s];
+    var body = renderQItemsHTMLForSubject(items, s);
+    return '<div class="subject-page ' + (s===activeMainSubject?'active':'') + '" data-subj="' + s + '">' +
+      '<div class="panel-head" style="margin-top:0;"><div class="desc">[' + s + '] 세특 내용을 바탕으로 예상되는 질문을 준비해요.</div>' +
+      '<button class="btn btn-ghost btn-sm" onclick="addMainSubjectItem(\'' + s + '\')">＋ 질문 추가</button></div>' +
+      body + '</div>';
+  }).join('');
+  document.getElementById('mainSubjectPanels').innerHTML = panels;
+
+  function renderQItemsHTMLForSubject(items, subject){
+    if(!items.length) return '<div class="empty-hint">아직 등록된 질문이 없어요.</div>';
+    return items.map(function(it, idx){
+      return '<div class="q-item"><div class="q-top">' +
+        '<div class="q-num">' + (idx+1) + '</div>' +
+        '<div style="flex:1;">' +
+          '<div class="q-meta-row">' +
+            '<input class="subject-detail" type="text" placeholder="세부 과목명 (예: 문학, 화법과 작문)" value="' + esc(it.subjectDetail) + '" oninput="updateMainSubjectDetail(\'' + subject + '\',\'' + it.id + '\',this.value)">' +
+            gradeSelectHTML(it.grade, 'onchange="updateMainSubjectGrade(\'' + subject + '\',\'' + it.id + '\',this.value)"') +
+          '</div>' +
+          '<textarea placeholder="예상 질문을 입력하세요" oninput="updateMainSubjectQ(\'' + subject + '\',\'' + it.id + '\',this.value)">' + esc(it.q) + '</textarea>' +
+        '</div>' +
+        '<button class="btn btn-danger" onclick="removeMainSubjectItem(\'' + subject + '\',\'' + it.id + '\')">삭제</button>' +
+      '</div>' +
+      '<textarea class="tall" placeholder="답변 방향 · 핵심 키워드 메모" oninput="updateMainSubjectMemo(\'' + subject + '\',\'' + it.id + '\',this.value)">' + esc(it.memo) + '</textarea></div>';
+    }).join('');
+  }
+
+  // 기타교과
+  var otherHtml = '';
+  if(!state.subjectsOther.length){
+    otherHtml = '<div class="empty-hint">등록된 기타교과가 없어요. ＋ 교과 추가 버튼으로 시작해보세요.</div>';
+  } else {
+    otherHtml = state.subjectsOther.map(function(s){
+      var itemsBody = s.items.length ? s.items.map(function(it, idx){
+        return '<div class="q-item"><div class="q-top">' +
+          '<div class="q-num">' + (idx+1) + '</div>' +
+          '<div style="flex:1;">' +
+            '<div class="q-meta-row">' +
+              '<input class="subject-detail" type="text" placeholder="세부 과목명 (예: 정보)" value="' + esc(it.subjectDetail) + '" oninput="updateOtherSubjectItemDetail(\'' + s.id + '\',\'' + it.id + '\',this.value)">' +
+              gradeSelectHTML(it.grade, 'onchange="updateOtherSubjectItemGrade(\'' + s.id + '\',\'' + it.id + '\',this.value)"') +
+            '</div>' +
+            '<textarea placeholder="예상 질문을 입력하세요" oninput="updateOtherSubjectItemQ(\'' + s.id + '\',\'' + it.id + '\',this.value)">' + esc(it.q) + '</textarea>' +
+          '</div>' +
+          '<button class="btn btn-danger" onclick="removeOtherSubjectItem(\'' + s.id + '\',\'' + it.id + '\')">삭제</button>' +
+        '</div>' +
+        '<textarea class="tall" placeholder="답변 방향 · 핵심 키워드 메모" oninput="updateOtherSubjectItemMemo(\'' + s.id + '\',\'' + it.id + '\',this.value)">' + esc(it.memo) + '</textarea></div>';
+      }).join('') : '<div class="empty-hint">아직 등록된 질문이 없어요.</div>';
+      return '<div class="group-block">' +
+        '<h3><input class="other-subject-name" type="text" placeholder="교과명 입력 (예: 정보)" value="' + esc(s.name) + '" oninput="updateOtherSubjectName(\'' + s.id + '\',this.value)">' +
+        '<span class="toolbar">' +
+        '<button class="btn btn-ghost btn-sm" onclick="addOtherSubjectItem(\'' + s.id + '\')">＋ 질문 추가</button>' +
+        '<button class="btn btn-danger" onclick="removeOtherSubject(\'' + s.id + '\')">교과 삭제</button>' +
+        '</span></h3>' + itemsBody + '</div>';
+    }).join('');
+  }
+  document.getElementById('otherSubjectList').innerHTML = otherHtml;
+}
+
+/* ===================== 6. 면접 후기 ===================== */
+function addReviewItem(){
+  state.review.push(newReviewItem());
+  saveState(); renderReview();
+}
+function removeReviewItem(id){
+  if(!confirm('이 후기를 삭제할까요?')) return;
+  state.review = state.review.filter(function(x){ return x.id!==id; });
+  saveState(); renderReview();
+}
+function updateReviewField(id, field, val){
+  var it = state.review.find(function(x){ return x.id===id; });
+  if(it){ it[field]=val; saveState(); }
+}
+function renderReview(){
+  var list = state.review;
+  var html = '';
+  if(!list.length){
+    html = '<div class="empty-hint">아직 작성된 면접 후기가 없어요. 면접을 다녀온 뒤 ＋ 후기 추가로 기록해보세요.</div>';
+  } else {
+    html = list.map(function(it, idx){
+      return '<div class="card">' +
+        '<div class="card-top"><span class="badge">후기 ' + (idx+1) + '</span>' +
+          '<button class="btn btn-danger" onclick="removeReviewItem(\'' + it.id + '\')">삭제</button></div>' +
+        '<div class="field-row">' + f('면접 날짜','date','date') + f('대학','univ','text') + f('학과','dept','text') + '</div>' +
+        '<div class="field-row">' + fa('실제로 받은 질문들','received') + '</div>' +
+        '<div class="field-row">' + fa('면접 분위기 · 난이도','atmosphere') + '</div>' +
+        '<div class="field-row">' +
+          '<div class="field-item"><label>잘한 점</label><textarea class="tall" oninput="updateReviewField(\'' + it.id + '\',\'good\',this.value)">' + esc(it.good) + '</textarea></div>' +
+          '<div class="field-item"><label>아쉬운 점 · 보완할 점</label><textarea class="tall" oninput="updateReviewField(\'' + it.id + '\',\'regret\',this.value)">' + esc(it.regret) + '</textarea></div>' +
+        '</div>' +
+        '<div class="field-row">' + fa('다음 면접을 위한 참고사항','tips') + '</div>' +
+      '</div>';
+      function f(label,key,type){
+        return '<div class="field-item"><label>' + label + '</label><input type="' + type + '" value="' + esc(it[key]) + '" oninput="updateReviewField(\'' + it.id + '\',\'' + key + '\',this.value)"></div>';
+      }
+      function fa(label,key){
+        return '<div class="field-item full"><label>' + label + '</label><textarea oninput="updateReviewField(\'' + it.id + '\',\'' + key + '\',this.value)">' + esc(it[key]) + '</textarea></div>';
+      }
+    }).join('');
+  }
+  document.getElementById('reviewList').innerHTML = html;
+}
+
+/* ===================== 인쇄 / PDF ===================== */
+function studentHeaderHTML(tabTitle){
+  var i = state.info;
+  var meta = [
+    i.school ? i.school : '',
+    (i.grade? i.grade+'학년':'') + (i.classNo? ' '+i.classNo+'반':'') + (i.number? ' '+i.number+'번':''),
+    i.name ? i.name : ''
+  ].filter(Boolean).join(' · ');
+  var today = new Date();
+  var dateStr = today.getFullYear()+'.'+String(today.getMonth()+1).padStart(2,'0')+'.'+String(today.getDate()).padStart(2,'0');
+  return '<div class="p-header">' +
+    '<h1>2027 수시 학생부 기반 면접 대비 학생 활동지</h1>' +
+    '<div class="p-meta">' + esc(tabTitle) + (meta? ' · '+esc(meta):'') + ' · 출력일 ' + dateStr + '</div>' +
+  '</div>';
+}
+function printTab(tabKey){
+  var area = document.getElementById('printArea');
+  var html = '';
+  if(tabKey === 'schedule'){
+    html = studentHeaderHTML('면접 일정');
+    if(!state.schedule.length) html += '<div class="p-block">등록된 면접 일정이 없습니다.</div>';
+    state.schedule.forEach(function(it, idx){
+      html += '<div class="p-block"><h4>면접 ' + (idx+1) + (it.univ? ' · '+esc(it.univ):'') + (it.dept? ' '+esc(it.dept):'') + '</h4>' +
+        row('전형명', it.track) + row('면접 일자', it.date) + row('시간/장소', it.time) +
+        row('면접 종류', it.type) + row('반영 비율', it.ratio) + row('평가 요소', it.factors) + row('참고사항', it.notes) +
+      '</div>';
+    });
+  } else if(tabKey === 'feedback'){
+    html = studentHeaderHTML('모의 면접 피드백 정리');
+    if(!state.feedback.length) html += '<div class="p-block">등록된 피드백 기록이 없습니다.</div>';
+    state.feedback.forEach(function(it, idx){
+      html += '<div class="p-block"><h4>' + (idx+1) + '회차' + (it.univ? ' · '+esc(it.univ):'') + '</h4>' +
+        row('학과', it.dept) + row('날짜', it.date) + row('평가자', it.evaluator) +
+        row('받았던 질문', it.questions) + row('평가자 피드백', it.feedbackContent) +
+        row('잘했던 점', it.good) + row('부족했던 점', it.bad) +
+      '</div>';
+    });
+  } else if(tabKey === 'common'){
+    html = studentHeaderHTML('공통 질문 준비');
+    if(!state.common.length) html += '<div class="p-block">등록된 질문이 없습니다.</div>';
+    state.common.forEach(function(it, idx){
+      html += qBlock(idx+1, it.q, it.memo, it.example);
+    });
+  } else if(tabKey === 'activities'){
+    html = studentHeaderHTML('자율·진로·동아리·행특 질문 준비');
+    ACTIVITY_GROUPS.forEach(function(g){
+      html += '<div class="p-sub-title">' + esc(g) + '</div>';
+      var items = state.activities[g];
+      if(!items.length) html += '<div class="p-block">등록된 질문이 없습니다.</div>';
+      items.forEach(function(it, idx){ html += qBlock(idx+1, (it.grade?'['+it.grade+'] ':'') + it.q, it.memo); });
+    });
+  } else if(tabKey === 'subjects'){
+    html = studentHeaderHTML('과세특 질문 준비');
+    html += '<div class="p-sub-title">주요교과</div>';
+    MAIN_SUBJECTS.forEach(function(s){
+      var items = state.subjectsMain[s];
+      html += '<div class="p-block"><h4>[' + esc(s) + ']</h4>' +
+        (items.length ? items.map(function(it,idx){ return innerQ(idx+1, subjTag(it)+it.q, it.memo); }).join('') : '등록된 질문이 없습니다.') +
+      '</div>';
+    });
+    if(state.subjectsOther.length){
+      html += '<div class="p-sub-title">기타교과</div>';
+      state.subjectsOther.forEach(function(s){
+        html += '<div class="p-block"><h4>[' + esc(s.name || '이름 없음') + ']</h4>' +
+          (s.items.length ? s.items.map(function(it,idx){ return innerQ(idx+1, subjTag(it)+it.q, it.memo); }).join('') : '등록된 질문이 없습니다.') +
+        '</div>';
+      });
+    }
+  } else if(tabKey === 'review'){
+    html = studentHeaderHTML('면접 후기');
+    if(!state.review.length) html += '<div class="p-block">작성된 후기가 없습니다.</div>';
+    state.review.forEach(function(it, idx){
+      html += '<div class="p-block"><h4>후기 ' + (idx+1) + (it.univ? ' · '+esc(it.univ):'') + (it.dept? ' '+esc(it.dept):'') + '</h4>' +
+        row('면접 날짜', it.date) + row('실제 받은 질문', it.received) + row('분위기·난이도', it.atmosphere) +
+        row('잘한 점', it.good) + row('아쉬운 점', it.regret) + row('다음 참고사항', it.tips) +
+      '</div>';
+    });
+  }
+  area.innerHTML = html;
+  setTimeout(function(){ window.print(); }, 50);
+
+  function row(label, val){
+    if(!val) return '';
+    return '<div class="p-row"><b>' + esc(label) + ':</b> ' + nl2br(val) + '</div>';
+  }
+  function qBlock(n, q, memo, example){
+    return '<div class="p-block"><h4>Q' + n + '. ' + esc(q||'(질문 미입력)') + '</h4>' +
+      (example? '<div class="p-row"><b>예시 답변 방향:</b> ' + nl2br(example) + '</div>' : '') +
+      (memo? '<div class="p-row"><b>나의 답변 메모:</b> ' + nl2br(memo) + '</div>' : '<div class="p-row" style="color:#999;">메모 없음</div>') +
+    '</div>';
+  }
+  function innerQ(n, q, memo){
+    return '<div class="p-row" style="margin-bottom:8px;"><b>Q' + n + '. ' + esc(q||'(질문 미입력)') + '</b>' +
+      (memo? '<br>'+nl2br(memo) : '') + '</div>';
+  }
+  function subjTag(it){
+    var tag = [it.subjectDetail, it.grade].filter(Boolean).join(' · ');
+    return tag ? '[' + tag + '] ' : '';
+  }
+}
+
+/* ===================== 백업 내보내기 / 불러오기 / 초기화 ===================== */
+function exportData(){
+  var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  var namePart = state.info.name ? '_' + state.info.name : '';
+  a.href = url;
+  a.download = 'interview_prep_backup' + namePart + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function importData(evt){
+  var file = evt.target.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    try{
+      var parsed = JSON.parse(reader.result);
+      if(!confirm('백업 파일을 불러오면 현재 화면의 내용을 덮어씁니다. 계속할까요?')) return;
+      var d = defaultState();
+      state = Object.assign(d, parsed);
+      state.info = Object.assign({}, d.info, parsed.info||{});
+      ACTIVITY_GROUPS.forEach(function(g){ if(!state.activities[g]) state.activities[g]=[]; });
+      MAIN_SUBJECTS.forEach(function(s){ if(!state.subjectsMain[s]) state.subjectsMain[s]=[]; });
+      saveState();
+      renderAll();
+      alert('백업 데이터를 불러왔습니다.');
+    }catch(e){
+      alert('파일을 읽는 중 오류가 발생했습니다. 올바른 백업 파일인지 확인해주세요.');
+    }
+  };
+  reader.readAsText(file);
+  evt.target.value = '';
+}
+function resetAll(){
+  if(!confirm('모든 입력 내용이 삭제됩니다. 정말 초기화할까요?')) return;
+  if(!confirm('한 번 더 확인합니다. 정말로 전체 초기화하시겠습니까?')) return;
+  state = defaultState();
+  saveState();
+  renderAll();
+}
+
+/* ===================== 초기 렌더 ===================== */
+function renderAll(){
+  bindInfo();
+  renderSchedule();
+  renderFeedback();
+  renderCommon();
+  renderActivities();
+  renderSubjects();
+  renderReview();
+}
+state = loadState();
+renderAll();
+</script>
+</body>
+</html>
