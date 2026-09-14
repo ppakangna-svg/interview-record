@@ -215,6 +215,16 @@
     color:var(--muted);
     margin-top:2px;
   }
+  .guide-note{
+    background:#fff7e6;
+    border:1px solid #f0c96b;
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:0.82rem;
+    color:#7a5b12;
+    margin:0 0 14px;
+    line-height:1.5;
+  }
   .btn{
     display:inline-flex;
     align-items:center;
@@ -508,7 +518,7 @@
   <button data-tab="subjects">📚 과세특 질문</button>
   <button data-tab="review">✍️ 면접 후기 작성</button>
   <button data-tab="feedback">📝 피드백 정리</button>
-  <a class="ext-link" href="https://hanmin-seven.vercel.app" target="_blank" rel="noopener">🏫 2027 화원고 수시 면접 관리 시스템 ↗</a>
+  <a class="ext-link" href="https://hanmin-seven.vercel.app" target="_blank" rel="noopener">🏫 2027 대입 면접 종합 시스템 ↗</a>
 </nav>
 
 <main>
@@ -595,6 +605,7 @@
         <button class="btn btn-primary" onclick="addReviewItem()">＋ 후기 추가</button>
       </div>
     </div>
+    <div class="guide-note no-print">📌 작성 후 PDF로 저장하여 진로활동 페들렛 자신의 게시판에 올려주세요.</div>
     <div id="reviewList"></div>
   </section>
 
