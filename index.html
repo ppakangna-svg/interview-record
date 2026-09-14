@@ -403,12 +403,44 @@
     font-size:0.72rem;
     font-weight:700;
     color:#a9761c;
-    margin-bottom:4px;
+    margin-bottom:0;
   }
   .example-box textarea{
     background:#fffdf7;
     border-color:#f2ddab;
     min-height:44px;
+  }
+  .example-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    cursor:pointer;
+    user-select:none;
+    padding:2px 0;
+  }
+  .example-header .example-toggle-icon{
+    font-size:0.7rem;
+    font-weight:700;
+    color:#a9761c;
+    transition:transform 0.2s ease;
+    flex:0 0 auto;
+  }
+  .example-box.open .example-header .example-toggle-icon{
+    transform:rotate(180deg);
+  }
+  .example-content{
+    display:none;
+    margin-top:6px;
+  }
+  .example-box.open .example-content{
+    display:block;
+  }
+  .example-content textarea{
+    min-height:150px;
+    line-height:1.55;
+    font-size:0.82rem;
+    white-space:pre-wrap;
   }
   .subject-tabs{
     display:flex;
@@ -635,15 +667,75 @@ var MAIN_SUBJECTS = ['국어과','영어과','수학과','사회과','과학과'
 var OLD_MAIN_SUBJECTS = ['국어','영어','수학','사회','과학']; // 이전 버전 데이터 마이그레이션용
 var ACTIVITY_GROUPS = ['자율활동','진로활동','동아리활동','행동특성 및 종합의견'];
 var DEFAULT_COMMON_QUESTIONS = [
-  { q:'우리 학과(전공)에 지원한 동기는 무엇인가요?', example:'관심이 생긴 계기(수업·활동)와 그 과정에서 키운 역량을 학과 특성과 연결해 설명하기' },
-  { q:'고등학교 생활 중 가장 기억에 남는 활동과 그 이유는 무엇인가요?', example:'구체적 활동명과 상황·자신의 역할·배운 점을 상황-행동-결과 흐름으로 설명하기' },
-  { q:'자신의 장점과 단점을 각각 한 가지씩 말해보세요.', example:'장점은 지원 학과와 연결되는 구체적 사례로, 단점은 극복 노력과 함께 짧게 언급하기' },
-  { q:'가장 의미 있었던 봉사활동과 그 이유를 말해보세요.', example:'봉사 계기와 구체적으로 한 일, 그 과정에서 느끼거나 배운 점을 지원 학과·인성 역량과 연결해 설명하기' },
-  { q:'리더십 또는 협업 능력을 발휘했던 경험이 있다면 말해보세요.', example:'리더 역할이나 팀 활동에서 있었던 갈등·어려움과 자신의 행동, 그로 인한 결과(협력의 성과)를 구체적으로 설명하기' },
-  { q:'입학 후 학업 계획과 졸업 후 진로 계획을 말해보세요.', example:'입학 후 듣고 싶은 과목·참여하고 싶은 활동을 구체적으로 제시하고 졸업 후 목표와 자연스럽게 연결하기' },
-  { q:'가장 인상 깊었던 책과 그 이유에 대해 말해보세요.', example:'책의 핵심 내용을 한두 문장으로 요약하고, 그것이 자신의 진로·가치관에 준 영향을 구체적으로 덧붙이기' },
-  { q:'우리 학교(대학)에 대해 아는 대로 말해보고, 왜 여기여야 하는지 말해보세요.', example:'학과 커리큘럼·특성화 프로그램 등 구체적 정보를 언급하며 지원 이유와 연결하기' },
-  { q:'마지막으로 하고 싶은 말이 있나요?', example:'짧고 진솔하게 감사 인사와 함께 입학 의지를 한 문장으로 표현하기' }
+  { q:'우리 학과(전공)에 지원한 동기는 무엇인가요?', example:
+'[구조: 두괄식 → 과거 동기 → 현재 노력 → 미래 계획 → 마무리]\n'+
+'① 두괄식: "저는 ○○이 되고자 △△학과에 지원했습니다."처럼 진로 목표를 한 문장으로 먼저 제시하기\n'+
+'② 과거 동기: 학과에 관심을 갖게 된 구체적 계기(수업·탐구·경험)를 짧게 설명하기\n'+
+'③ 현재 노력: 관심을 확인하거나 역량을 기르기 위해 실제로 한 활동(세특·동아리·자율활동 등)을 구체적으로 제시하기\n'+
+'④ 미래 계획: 입학 후 배우고 싶은 것과 졸업 후 목표를 자연스럽게 연결하기\n'+
+'⑤ 마무리: ①의 문장을 살짝 바꿔 다시 언급하며 마무리(수미상관 구조)'
+  },
+  { q:'고등학교 생활 중 가장 기억에 남는 활동과 그 이유는 무엇인가요?', example:
+'[구조: 무-동-과-배 (무엇을 했는지 → 동기 → 과정 → 배운 점)]\n'+
+'① 무엇(무): "○학년 때 ~을 한 ~활동입니다."처럼 활동에 제목 붙이듯 한 문장으로 소개하기\n'+
+'② 동기(동): 그 활동을 시작하게 된 계기나 문제의식을 짧게 설명하기\n'+
+'③ 과정(과): 자신이 실제로 맡은 역할, 기울인 노력, 겪었던 어려움과 극복 과정을 구체적으로(숫자·방법 등) 서술하기\n'+
+'④ 배움(배): 그 경험을 통해 배우거나 성장한 점을 자신의 학과·진로 관심과 연결해 마무리하기'
+  },
+  { q:'자신의 장점과 단점을 각각 한 가지씩 말해보세요.', example:
+'[장점 - P-R-E-P 구조]\n'+
+'① Point: 장점을 한 문장으로 먼저 제시\n'+
+'② Reason: 왜 그것을 장점이라 생각하는지 이유(선택)\n'+
+'③ Example: 그 장점이 드러난 구체적 활동 사례 한 가지\n'+
+'④ Point: 처음 문장을 다시 언급하며 마무리\n'+
+'[단점]\n'+
+'① 학과 수행에 치명적이지 않은 단점을 솔직하게 한 가지만 언급\n'+
+'② 그 단점을 극복하려고 실제로 노력하고 있는 구체적 방법을 덧붙이기 (핵심은 극복 과정!)'
+  },
+  { q:'가장 의미 있었던 봉사활동과 그 이유를 말해보세요.', example:
+'[구조: 무-동-과-배]\n'+
+'① 무엇(무): 봉사활동명, 기간, 자신의 역할을 간단히 소개\n'+
+'② 동기(동): 그 봉사를 시작했거나 특별히 애정을 갖게 된 계기\n'+
+'③ 과정(과): 활동 중 겪은 어려움과 이를 해결하려 기울인 노력을 구체적으로 설명 (상대방 입장에서 생각한 점을 넣으면 더 좋음)\n'+
+'④ 배움(배): 이 경험이 자신의 인성·가치관·학과 관심과 어떻게 연결되는지로 마무리'
+  },
+  { q:'리더십 또는 협업 능력을 발휘했던 경험이 있다면 말해보세요.', example:
+'[구조: 무-동-과-문-해-배 (공동체 역량)]\n'+
+'① 무엇(무): 함께한 활동명과 자신의 역할을 소개\n'+
+'② 동기(동): 그 활동을 시작·제안하게 된 계기\n'+
+'③ 과정(과): 목표 달성을 위해 자신이 실제로 한 일을 설명\n'+
+'④ 문제(문): 활동 중 겪은 갈등이나 어려움을 솔직하게 제시\n'+
+'⑤ 해결(해): 그 문제를 해결하기 위해 자신이 기울인 구체적 노력\n'+
+'⑥ 배움(배): 협업·리더십에 대해 깨달은 점(역할 분담의 중요성, 소통 방법 등)으로 마무리'
+  },
+  { q:'입학 후 학업 계획과 졸업 후 진로 계획을 말해보세요.', example:
+'[구조: 목표 제시 → 전공 학습 계획 → 기타 학습 계획 → 마무리]\n'+
+'① 목표 제시: 학과에서 기르고 싶은 역량과 진로 방향을 한 문장으로 제시\n'+
+'② 전공 학습 계획: 관심 있는 세부 분야와 이를 위해 구체적으로 어떤 공부·활동을 할지 서술 (고교 시절 아쉬웠던 점과 연결하면 설득력 상승)\n'+
+'③ 기타 학습 계획: 복수전공·교양·비교과 활동 등 전공 외 계획(선택)\n'+
+'④ 마무리: 학업을 통해 이루고 싶은 최종 진로 비전으로 마무리'
+  },
+  { q:'가장 인상 깊었던 책과 그 이유에 대해 말해보세요.', example:
+'[구조: 책 소개 → 인상 깊었던 이유 → 가치관 연결]\n'+
+'① 책 제목과 핵심 내용을 한두 문장으로 간단히 요약\n'+
+'② 가장 인상 깊었던 부분이나 문장을 구체적으로 언급\n'+
+'③ 그 내용이 자신의 진로·가치관·학과 관심에 준 영향을 연결해 마무리\n'+
+'※ 줄거리 나열보다 "왜 나에게 의미 있었는지"에 초점 맞추기'
+  },
+  { q:'우리 학교(대학)에 대해 아는 대로 말해보고, 왜 여기여야 하는지 말해보세요.', example:
+'[구조: 학교 정보 → 지원 이유 연결]\n'+
+'① 지원 학과의 커리큘럼, 특성화 프로그램, 인재상 등 구체적 정보를 1~2가지 언급 (학교 홈페이지·모집요강 미리 확인 필요)\n'+
+'② 그 정보가 자신의 진로 계획과 어떻게 맞는지 연결해서 설명\n'+
+'③ "그래서 이 학교(학과)여야 하는 이유"로 마무리\n'+
+'※ 막연한 칭찬("좋은 학교라서")보다 구체적 근거 제시가 핵심'
+  },
+  { q:'마지막으로 하고 싶은 말이 있나요?', example:
+'[준비 팁]\n'+
+'- 합격에 대한 의지를 간절하고 솔직하게 보여주기\n'+
+'- 너무 튀거나 과장된 표현은 피하기\n'+
+'- 앞서 준비한 질문 중 답변하지 못했거나 아쉬웠던 답변이 있다면 보완해서 언급하기\n'+
+'- 짧고 진솔하게 감사 인사 + 입학 의지로 마무리'
+  }
 ];
 var GRADE_OPTIONS = ['1학년','2학년','3학년'];
 var STORAGE_KEY = 'interview_prep_2027_v2';
@@ -928,6 +1020,11 @@ function renderFeedback(){
 }
 
 /* ===================== 3. 공통질문 ===================== */
+var openExampleIds = {}; // 예시 답변 방향 아코디언 펼침 상태(화면 표시용, 저장은 안 함)
+function toggleExampleBox(id){
+  openExampleIds[id] = !openExampleIds[id];
+  renderCommon();
+}
 function addCommonItem(){
   state.common.push(makeQItem(''));
   saveState(); renderCommon();
@@ -944,13 +1041,21 @@ function renderCommon(){
   var html = !items.length
     ? '<div class="empty-hint">아직 등록된 질문이 없어요. 위의 ＋ 버튼으로 추가해보세요.</div>'
     : items.map(function(it, idx){
+        var isOpen = !!openExampleIds[it.id];
         return '<div class="q-item"><div class="q-top">' +
           '<div class="q-num">' + (idx+1) + '</div>' +
           '<div style="flex:1;"><textarea placeholder="예상 질문을 입력하세요" oninput="updateCommonQ(\'' + it.id + '\', this.value)">' + esc(it.q) + '</textarea></div>' +
           '<button class="btn btn-danger" onclick="removeCommonItem(\'' + it.id + '\')">삭제</button>' +
         '</div>' +
-        '<div class="example-box"><label>💡 예시 답변 방향</label>' +
-          '<textarea placeholder="이 질문에 대한 간단한 예시 답변 방향을 적어두면 참고하기 좋아요." oninput="updateCommonExample(\'' + it.id + '\', this.value)">' + esc(it.example) + '</textarea></div>' +
+        '<div class="example-box' + (isOpen ? ' open' : '') + '">' +
+          '<div class="example-header" onclick="toggleExampleBox(\'' + it.id + '\')">' +
+            '<label>💡 예시 답변 방향 (참고용 구조 가이드) ' + (isOpen ? '숨기기' : '펼쳐 보기') + '</label>' +
+            '<span class="example-toggle-icon">▼</span>' +
+          '</div>' +
+          '<div class="example-content">' +
+            '<textarea placeholder="이 질문에 대한 예시 답변 방향(구조)을 적어두면 참고하기 좋아요." oninput="updateCommonExample(\'' + it.id + '\', this.value)">' + esc(it.example) + '</textarea>' +
+          '</div>' +
+        '</div>' +
         '<textarea class="tall" placeholder="나만의 답변 준비 메모" oninput="updateCommonMemo(\'' + it.id + '\', this.value)">' + esc(it.memo) + '</textarea></div>';
       }).join('');
   document.getElementById('commonList').innerHTML = html;
